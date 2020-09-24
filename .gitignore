@@ -17,3 +17,6 @@ pids
 *.pid
 *.seed
 *.pid.lock
+
+#VSCode Workspace
+dev.code-workspace
