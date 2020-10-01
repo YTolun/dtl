@@ -1,4 +1,4 @@
-function newFromTemplate() {
+const newFromTemplate = () => {
   const template = DocumentApp.getActiveDocument();
   const templateName = template.getName();
   const templateId = template.getId();
@@ -9,4 +9,4 @@ function newFromTemplate() {
   const instanceId = instance.getId();
 
   return instanceId;
-}
+};

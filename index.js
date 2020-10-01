@@ -1,5 +1,8 @@
 function app() {
   const instanceId = newFromTemplate();
+  const instanceDocument = DocumentApp.openById(instanceId);
 
-  Logger.log(instanceId);
+  processVariables(instanceDocument);
+  processIfStatements(instanceDocument);
+  processSwitchStatements(instanceDocument);
 }
