@@ -1,4 +1,7 @@
-const processSwitchStatements = (document, switchStatementValues) => {
+const detectSwitchStatements = () => {
+  document = DocumentApp.getActiveDocument();
+  let switchStatementList = [];
+
   const extractVariableName = (codePartialText) => {
     return codePartialText
       .replace(regularStartTag, ``)
@@ -12,14 +15,20 @@ const processSwitchStatements = (document, switchStatementValues) => {
     const codePartialText = blockStart.asText().getText();
     const variableName = extractVariableName(codePartialText);
 
-    processCaseBlocks(document, blockRange, switchStatementValues[variableName]);
+    const caseBlockList = detectCaseBlocks(blockRange, variableName);
+    const switchStatement = {
+      variable: variableName,
+      caseBlockList: caseBlockList,
+    };
 
-    blockStart.getParent().removeFromParent();
-    blockEnd.getParent().removeFromParent();
+    switchStatementList.push(switchStatement);
   };
 
   const regularStartTag = `<dtl:switch=`;
   const regularEndTag = `</dtl:switch>`;
 
   processCodeBlock(document, regularStartTag, regularEndTag, handleCases);
+
+  switchStatementList = [...new Set(switchStatementList)];
+  return switchStatementList;
 };

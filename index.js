@@ -1,8 +1,8 @@
-function app() {
+const generateACopy = ({ variableValues, ifStatementValues, switchStatementValues }) => {
   const instanceId = newFromTemplate();
   const instanceDocument = DocumentApp.openById(instanceId);
 
-  processVariables(instanceDocument);
-  processIfStatements(instanceDocument);
-  processSwitchStatements(instanceDocument);
-}
+  processVariables(instanceDocument, variableValues);
+  processIfStatements(instanceDocument, ifStatementValues);
+  processSwitchStatements(instanceDocument, switchStatementValues);
+};

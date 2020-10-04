@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+      section {
+        margin-bottom: 40px;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: 400;
+        padding: 7px 0;
+        width: 100%;
+        color: #2980b9;
+        border: 2px solid #2980b9;
+        text-align: center;
+      }
+      .input-wrapper {
+        margin: 15px 0;
+      }
+      label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 7px;
+      }
+      label span {
+        font-weight: 600;
+      }
+      input[type="text"] {
+        display: block;
+        width: 98%;
+        height: 30px;
+        border: 1px solid #2980b9;
+      }
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+        background-color: #2980b9;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      select {
+        width: 100%;
+        height: 40px;
+        border: solid 1px #2980b9;
+        color: #2980b9;
+      }
+
+      /* Styles for the custom checkbox */
+      .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+      }
+      .styled-checkbox + label {
+        position: relative;
+        cursor: pointer;
+        padding: 0;
+      }
+      .styled-checkbox + label:before {
+        content: "";
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: text-top;
+        width: 20px;
+        height: 20px;
+        border: #3498db solid 1px;
+        background: white;
+      }
+      .styled-checkbox:hover + label:before {
+        background: #3498db;
+      }
+      .styled-checkbox:focus + label:before {
+        box-shadow: none;
+      }
+      .styled-checkbox:checked + label:before {
+        background: #3498db;
+      }
+      .styled-checkbox:checked + label:after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 9px;
+        background: white;
+        width: 2px;
+        height: 2px;
+        box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white,
+          4px -8px 0 white;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <section>
+        <h2 class="section-title">Variables</h2>
+        <? const variableList = detectVariables(); ?>
+        <? for(let i=0; i < variableList.length-1; i++) { ?>
+        <div class="input-wrapper">
+          <label for="<?= variableList[i] ?>">
+            Replace <span>"<?= variableList[i] ?>"</span> with:
+          </label>
+          <input
+            class="variable-input"
+            name="<?= variableList[i] ?>"
+            type="text"
+            value="<?= variableList[i] ?>"
+          />
+        </div>
+        <? } ?>
+      </section>
+      <section>
+        <h2 class="section-title">If Statements</h2>
+        <? const ifStatementList = detectIfStatements(); ?>
+        <? for(let i=0; i < ifStatementList.length; i++) { ?>
+        <div class="input-wrapper">
+          <input
+            class="if-statement-input styled-checkbox"
+            id="<?= ifStatementList[i] ?>"
+            name="<?= ifStatementList[i] ?>"
+            type="checkbox"
+          />
+          <label for="<?= ifStatementList[i] ?>">
+            Include <span>"<?= ifStatementList[i] ?>"</span> section
+          </label>
+        </div>
+        <? } ?>
+      </section>
+      <section>
+        <h2 class="section-title">Switch Statements</h2>
+        <? const switchStatementList = detectSwitchStatements(); ?>
+        <? for(let i=0; i < switchStatementList.length; i++) { ?>
+        <div class="input-wrapper">
+          <label for="<?= switchStatementList[i].variable ?>">
+            Define <span>"<?= switchStatementList[i].variable ?>"</span> as:
+          </label>
+          <select class="switch-statement-input" name="<?= switchStatementList[i].variable ?>" required>
+            <? for(let j=0; j < switchStatementList[i].caseBlockList.length; j++) { ?>
+            <option value="<?= switchStatementList[i]['caseBlockList'][j] ?>">
+              <?= switchStatementList[i]['caseBlockList'][j] ?>
+            </option>
+            <? } ?>
+          </select>
+        </div>
+        <? } ?>
+      </section>
+      <input type="submit" value="Generate a Copy" />
+    </form>
+  </body>
+  <script>
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      let formData = { variableValues: {}, ifStatementValues: {}, switchStatementValues: {} };
+
+      // Serialize variable input values
+      const variableInputs = Array.from(document.getElementsByClassName("variable-input"));
+      variableInputs.forEach((element) => {
+        const inputName = element.name;
+        const inputValue = element.value;
+        formData["variableValues"][inputName] = inputValue;
+      });
+
+      // Serialize if statement input values
+      const ifStatementInputs = Array.from(document.getElementsByClassName("if-statement-input"));
+      ifStatementInputs.forEach((element) => {
+        const inputName = element.name;
+        const inputValue = element.checked;
+        formData["ifStatementValues"][inputName] = inputValue;
+      });
+
+      // Serialize switch statement input values
+      const switchStatementInputs = Array.from(
+        document.getElementsByClassName("switch-statement-input")
+      );
+      switchStatementInputs.forEach((element) => {
+        const inputName = element.name;
+        const inputValue = element.value;
+        formData["switchStatementValues"][inputName] = inputValue;
+      });
+
+      google.script.run
+        .withSuccessHandler(onSuccess)
+        .withFailureHandler(onError)
+        .generateACopy(formData);
+    });
+
+    const onSuccess = () => {
+      console.log("Success");
+    };
+
+    const onError = () => {
+      console.log("error");
+    };
+  </script>
+</html>

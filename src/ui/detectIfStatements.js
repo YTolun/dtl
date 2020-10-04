@@ -1,4 +1,7 @@
-const processIfStatements = (document, ifStatementValues) => {
+const detectIfStatements = () => {
+  document = DocumentApp.getActiveDocument();
+  let ifStatementList = [];
+
   const extractVariableName = (codePartialText) => {
     return codePartialText
       .replace(regularStartTag, ``)
@@ -12,18 +15,14 @@ const processIfStatements = (document, ifStatementValues) => {
     const codePartialText = blockStart.asText().getText();
     const variableName = extractVariableName(codePartialText);
 
-    if (ifStatementValues[variableName]) {
-      blockStart.getParent().removeFromParent();
-      blockEnd.getParent().removeFromParent();
-    } else {
-      blockRange.getRangeElements().forEach((rangeElement) => {
-        rangeElement.getElement().removeFromParent();
-      });
-    }
+    ifStatementList.push(variableName);
   };
 
   const regularStartTag = `<dtl:if=`;
   const regularEndTag = `</dtl:if>`;
 
   processCodeBlock(document, regularStartTag, regularEndTag, toggleElementVisibility);
+
+  ifStatementList = [...new Set(ifStatementList)];
+  return ifStatementList;
 };
