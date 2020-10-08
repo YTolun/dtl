@@ -13,6 +13,23 @@
       section {
         margin-bottom: 40px;
       }
+      #message h2 {
+        font-size: 20px;
+        font-weight: 400;
+        padding: 7px 0;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+      }
+      #message h2.loading {
+        background-color: #f39c12;
+      }
+      #message h2.success {
+        background-color: #27ae60;
+      }
+      #message h2.error {
+        background-color: #c0392b;
+      }
       .section-title {
         font-size: 20px;
         font-weight: 400;
@@ -102,7 +119,8 @@
     </style>
   </head>
   <body>
-    <form>
+    <div id="message"></div>
+    <form id="form">
       <section>
         <h2 class="section-title">Variables</h2>
         <? const variableList = detectVariables(); ?>
@@ -196,14 +214,28 @@
         .withSuccessHandler(onSuccess)
         .withFailureHandler(onError)
         .generateACopy(formData);
+      removeForm();
     });
 
+    const removeForm = () => {
+      const form = document.querySelector("#form");
+      form.parentNode.removeChild(form);
+
+      const messageBox = document.querySelector("#message");
+      messageBox.innerHTML = `<h2 class="loading">Processing</h2><p>Please wait...</p>`;
+    };
+
     const onSuccess = () => {
-      console.log("Success");
+      const messageBox = document.querySelector("#message");
+      messageBox.innerHTML = `<h2 class="success">Success</h2><p>Generated a copy of the document with the specified values. Please check your drive.</p>`;
     };
 
     const onError = () => {
-      console.log("error");
+      const form = document.querySelector("#form");
+      form.parentNode.removeChild(form);
+
+      const messageBox = document.querySelector("#message");
+      messageBox.innerHTML = `<h2 class="error">Error</h2><p>Something went wrong. Please try again later.</p>`;
     };
   </script>
 </html>
