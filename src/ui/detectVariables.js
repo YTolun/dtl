@@ -18,7 +18,9 @@ const detectVariables = () => {
 
       // Code block might not necessarily be the only thing int he element, so we need to select it.
       const codePartialStart = elementAsText.findText(startTag).getStartOffset();
-      const codePartialEnd = elementAsText.findText(endTag).getEndOffsetInclusive();
+      const codePartialEnd = elementAsText
+        .findText(endTag, elementAsText.findText(startTag))
+        .getEndOffsetInclusive();
       const codePartialText = elementAsText.getText().substring(codePartialStart, codePartialEnd + 1);
 
       // Now extract the variable name from the code block
