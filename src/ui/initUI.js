@@ -1,4 +1,4 @@
-const onOpen = (e) => {
+const onOpen = () => {
   const ui = DocumentApp.getUi();
   ui.createMenu("DTL").addItem("Generate A Copy", "initDTL").addToUi();
 };
