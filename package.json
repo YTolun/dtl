@@ -1,7 +1,12 @@
 {
   "name": "dtl",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "An Apps Script project for Google Docs. It allows you to create flexible templates and generate instances of them using a sidebar GUI",
+  "keywords": [
+    "google docs",
+    "templating",
+    "apps script"
+  ],
   "main": "index.js",
   "dependencies": {
     "@types/google-apps-script": "^1.0.16"
@@ -10,6 +15,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Yuksel Tolun",
+  "author": "Yüksel Tolun",
   "license": "MIT"
 }
