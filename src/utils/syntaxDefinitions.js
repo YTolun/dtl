@@ -1,7 +1,7 @@
 const syntax = {
     attribute: {
-        startTag:`"`,
-        endTag: `"`,
+        startTag:`{`,
+        endTag: `}`,
     },
     variable: {
         blockStartTag: `<dtl:print=`,
