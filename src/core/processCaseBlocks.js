@@ -1,16 +1,7 @@
 const processCaseBlocks = (document, switchBlockRange, switchVariableValue) => {
-  const extractCaseValue = (codePartialText) => {
-    return codePartialText
-      .replace(regularStartTag, ``)
-      .replace(`"`, ``)
-      .replace(`>`, ``)
-      .replace(`"`, ``)
-      .trim();
-  };
-
   const toggleCaseVisibility = ({ startTag, blockStart, blockRange, blockEnd, endTag }) => {
     const codePartialText = blockStart.asText().getText();
-    const caseValue = extractCaseValue(codePartialText);
+    const caseValue = extractAttributeValue(startTag, codePartialText, ">");
 
     if (switchVariableValue === caseValue) {
       blockStart.getParent().removeFromParent();
@@ -27,20 +18,20 @@ const processCaseBlocks = (document, switchBlockRange, switchVariableValue) => {
 
   // We need to loop through the case values in this particular switch statements range
   switchBlockRange.getRangeElements().forEach((rangeElement) => {
-    let searchResult = rangeElement.getElement().asText().findText(regularStartTag);
+    let searchResult = rangeElement.getElement().asText().findText(syntax.switchStatements.caseBlocks.blockStartTag.beginsWith);
 
     if (searchResult) {
       let caseBlockStart = searchResult.getElement();
-      let caseBlockEnd = document.getBody().findText(regularEndTag).getElement();
+      let caseBlockEnd = document.getBody().findText(syntax.switchStatements.caseBlocks.blockEndTag).getElement();
 
       const caseBlockRange = document.newRange().addElementsBetween(caseBlockStart, caseBlockEnd);
 
       toggleCaseVisibility({
-        startTag: regularStartTag,
+        startTag: syntax.switchStatements.caseBlocks.blockStartTag.beginsWith,
         blockStart: caseBlockStart,
         blockRange: caseBlockRange,
         blockEnd: caseBlockEnd,
-        endTag: regularEndTag,
+        endTag: syntax.switchStatements.caseBlocks.blockEndTag,
       });
     }
   });

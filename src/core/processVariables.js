@@ -1,13 +1,4 @@
 const processVariables = (document, variableValues) => {
-  const extractVariableName = (startTag, codePartialText, endTag) => {
-    return codePartialText
-      .replace(startTag, ``)
-      .replace(`"`, ``)
-      .replace(endTag, ``)
-      .replace(`"`, ``)
-      .trim();
-  };
-
   // Callback function for the actual proccessing
   const replaceVariable = ({ startTag, blockRange, endTag }) => {
     blockRange.getRangeElements().forEach((rangeElement) => {
@@ -19,21 +10,14 @@ const processVariables = (document, variableValues) => {
       const codePartialText = elementAsText.getText().substring(codePartialStart, codePartialEnd + 1);
 
       // Now extract the variable name from the code block
-      const variableName = extractVariableName(startTag, codePartialText, endTag);
+      const variableName = extractAttributeValue(startTag, codePartialText, endTag);
 
       elementAsText.replaceText(codePartialText, variableValues[variableName]);
     });
   };
 
-  // Define code block as <dtl:print="variable" />
-  const regularStartTag = `<dtl:print=`;
-  const regularEndTag = `/>`;
 
-  processCodeBlock(document, regularStartTag, regularEndTag, replaceVariable);
+  processCodeBlock(document, syntax.variable.blockStartTag, syntax.variable.blockEndTag, replaceVariable);
 
-  // Shorthand as <dtl="variable" />
-  const shorthandStartTag = `<dtl=`;
-  const shorthandEndTag = `/>`;
-
-  processCodeBlock(document, shorthandStartTag, shorthandEndTag, replaceVariable);
+  processCodeBlock(document, syntax.variableShortHand.blockStartTag, syntax.variableShortHand.blockEndTag, replaceVariable);
 };

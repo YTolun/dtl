@@ -1,16 +1,7 @@
 const processIfStatements = (document, ifStatementValues) => {
-  const extractVariableName = (codePartialText) => {
-    return codePartialText
-      .replace(regularStartTag, ``)
-      .replace(`"`, ``)
-      .replace(`>`, ``)
-      .replace(`"`, ``)
-      .trim();
-  };
-
   const toggleElementVisibility = ({ startTag, blockStart, blockRange, blockEnd, endTag }) => {
     const codePartialText = blockStart.asText().getText();
-    const variableName = extractVariableName(codePartialText);
+    const variableName = extractAttributeValue(startTag, codePartialText, syntax.ifStatements.blockStartTag.endsWith);
 
     if (ifStatementValues[variableName]) {
       blockStart.getParent().removeFromParent();
@@ -22,8 +13,5 @@ const processIfStatements = (document, ifStatementValues) => {
     }
   };
 
-  const regularStartTag = `<dtl:if=`;
-  const regularEndTag = `</dtl:if>`;
-
-  processCodeBlock(document, regularStartTag, regularEndTag, toggleElementVisibility);
+  processCodeBlock(document, syntax.ifStatements.blockStartTag.beginsWith, syntax.ifStatements.blockEndTag, toggleElementVisibility);
 };

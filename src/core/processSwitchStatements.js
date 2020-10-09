@@ -1,16 +1,7 @@
 const processSwitchStatements = (document, switchStatementValues) => {
-  const extractVariableName = (codePartialText) => {
-    return codePartialText
-      .replace(regularStartTag, ``)
-      .replace(`"`, ``)
-      .replace(`>`, ``)
-      .replace(`"`, ``)
-      .trim();
-  };
-
   const handleCases = ({ startTag, blockStart, blockRange, blockEnd, endTag }) => {
     const codePartialText = blockStart.asText().getText();
-    const variableName = extractVariableName(codePartialText);
+    const variableName = extractAttributeValue(startTag, codePartialText, syntax.switchStatements.blockStartTag.endsWith);
 
     processCaseBlocks(document, blockRange, switchStatementValues[variableName]);
 
@@ -21,5 +12,5 @@ const processSwitchStatements = (document, switchStatementValues) => {
   const regularStartTag = `<dtl:switch=`;
   const regularEndTag = `</dtl:switch>`;
 
-  processCodeBlock(document, regularStartTag, regularEndTag, handleCases);
+  processCodeBlock(document,  syntax.switchStatements.blockStartTag.beginsWith, syntax.switchStatements.blockEndTag, handleCases);
 };
