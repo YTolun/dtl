@@ -27,6 +27,7 @@
   - **[If Statements](#if-statements)**<br>
   - **[Switch Statements](#switch-statements)**<br>
 - **[Known Issues](#known-issues)**<br>
+- **[License](#license)**<br>
 
 ## Features
 
@@ -139,3 +140,7 @@ Currently, DTL doesn't support using inline switch statements.
 ### Last element of a document can't be a variable, an if statement or a switch statement
 
 You need at least one empty line or a line of regulat text (that doesn't use DTL) at the end of your document. This issue is caused by an Apps Script limitation.
+
+## License
+
+This project is licensed under the MIT License. For further information, please check the [LICENSE file](LICENSE).
