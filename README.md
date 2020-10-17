@@ -14,15 +14,19 @@
 <a href="https://twitter.com/ytolun"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/ytolun?style=social"></a>
 </p>
 
-> Create flexible templates for Google Docs and generate instances of them using a sidebar GUI
+> Create flexible templates for Google Docs and generate instances of your templates using a sidebar GUI
+
+![Docs Templating Language Demo](demo.gif)
 
 ## Table of Contents
 
 - **[Features](#features)**<br>
+- **[Usage](#usage)**<br>
 - **[Syntax](#syntax)**<br>
   - **[Variables](#Variables)**<br>
   - **[If Statements](#if-statements)**<br>
   - **[Switch Statements](#switch-statements)**<br>
+- **[Known Issues](#known-issues)**<br>
 
 ## Features
 
@@ -35,6 +39,40 @@
 **🖇Nesting:** You can use variables inside of if or switch statements
 
 **💫 Flexible:** DTL can be used to create anytype of document template you want
+
+## Usage
+
+As of now, DTL isn't published as an add-on. So you need to create your own Apps Script project by copying this file.
+
+### Clone the project
+
+```
+git clone https://github.com/YTolun/dtl.git
+```
+
+### Create a Google Doc file
+
+Create a Google Doc file in youy Drive and open the **Script Editor** by going to _Tools > Script Editor_
+
+### Change Script Id in the cloned project
+
+To learn the Script Id of your newly created Google Doc, open the Script Editor and go to _File > Project Properties_
+
+Copy the Script Id of your Google Doc and change `/.clasp.json` accordingly.
+
+## Install clasp
+
+Please follow the instructions on [clasp README](https://github.com/google/clasp) to install clasp, log into it and turn on your Apps Script API.
+
+### Push the code to your project
+
+Run
+
+```
+clasp push
+```
+
+Now when you open your Google Doc, you'll see the DTL item on the menu.
 
 ## Syntax
 
@@ -95,3 +133,9 @@ Swtich statement syntax:
 ```
 
 Currently, DTL doesn't support using inline switch statements.
+
+## Known Issues
+
+### Last element of a document can't be a variable, an if statement or a switch statement
+
+You need at least one empty line or a line of regulat text (that doesn't use DTL) at the end of your document. This issue is caused by an Apps Script limitation.
