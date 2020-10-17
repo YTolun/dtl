@@ -14,7 +14,7 @@
 <a href="https://twitter.com/ytolun"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/ytolun?style=social"></a>
 </p>
 
-> Create flexible templates for Google Docs and generate instances of your templates using a sidebar GUI
+> Create flexible templates for Google Docs and generate instances of your templates using a sidebar GUI. See the [demo video here](https://www.youtube.com/watch?v=mMJRIl_-KAE)
 
 ![Docs Templating Language Demo](demo.gif)
 
